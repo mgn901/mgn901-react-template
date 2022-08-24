@@ -6,6 +6,20 @@ const NODE_ENV = process.env.NODE_ENV ?? 'development';
 const isDev = NODE_ENV === 'development';
 const outDir = NODE_ENV;
 
+const onBuild = () => {
+	const copiedFiles = [
+		'index.html',
+	];
+	if (!fs.existsSync(`./${outDir}/icons`)) {
+		fs.mkdirSync(`./${outDir}/icons`);
+	}
+	for (let i = 0; i < copiedFiles.length; i += 1) {
+		const copiedFilePath = copiedFiles[i];
+		fs.copyFileSync(`./src/${copiedFilePath}`, `./${outDir}/${copiedFilePath}`);
+	}
+	console.log(`${new Date().toISOString()}: Built Successfully.`);
+}
+
 const options: esbuild.BuildOptions = {
 	entryPoints: [
 		'./src/index.tsx',
@@ -24,7 +38,7 @@ const options: esbuild.BuildOptions = {
 			if (err) {
 				console.error(err.message);
 			} else {
-				console.log(`${new Date().toISOString()}: Built Successfully.`);
+				onBuild();
 			}
 		},
 	} : false,
@@ -33,19 +47,5 @@ const options: esbuild.BuildOptions = {
 };
 
 esbuild.build(options).then(result => {
-	const copiedFiles = [
-		'index.html',
-		// 'manifest.json',
-		// 'icons/favicon.ico',
-		// 'icons/icon-192x192.png',
-		// 'icons/icon-512x512.png',
-	];
-	if (!fs.existsSync(`./${outDir}/icons`)) {
-		fs.mkdirSync(`./${outDir}/icons`);
-	}
-	for (let i = 0; i < copiedFiles.length; i += 1) {
-		const copiedFilePath = copiedFiles[i];
-		fs.copyFileSync(`./src/${copiedFilePath}`, `./${outDir}/${copiedFilePath}`);
-	}
-	console.log(`${new Date().toISOString()}: Built Successfully.`);
+	onBuild();
 });
