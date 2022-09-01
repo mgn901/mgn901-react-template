@@ -4,12 +4,12 @@ const appVersion = 'app0.0.0';
 
 const appURLs = [
 	'./',
-	'./index.js',
-	'./index.css',
-	'./manifest.json',
-	// './icons/favicon.ico',
-	// './icons/icon-192x192.png',
-	// './icons/icon-512x512.png',
+	'./assets/index.js',
+	'./assets/index.css',
+	'./assets/manifest.json',
+	// './assets/icons/favicon.ico',
+	// './assets/icons/icon-192x192.png',
+	// './assets/icons/icon-512x512.png',
 	'https://fonts.googleapis.com/icon?family=Material+Icons',
 	'https://rsms.me/inter/inter.css',
 ].map(path => {
