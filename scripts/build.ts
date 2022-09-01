@@ -46,6 +46,14 @@ const options: esbuild.BuildOptions = {
 	plugins: [sassPlugin()],
 };
 
+const start =  () => {
 esbuild.build(options).then(result => {
 	onBuild();
 });
+	if (!isDev) {
+		process.exit(0);
+	}
+	return;
+}
+
+start();
