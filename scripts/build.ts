@@ -8,29 +8,25 @@ const outDir = NODE_ENV;
 
 const onBuild = () => {
 	const copiedFiles = [
-		// 'manifest.json',
-		// 'icons/favicon.ico',
-		// 'icons/icon-192x192.png',
-		// 'icons/icon-512x512.png',
+		'index.html',
 	];
-	if (!fs.existsSync(`./${outDir}/static/assets/icons`)) {
-		fs.mkdirSync(`./${outDir}/static/assets/icons`);
+	if (!fs.existsSync(`./${outDir}/icons`)) {
+		fs.mkdirSync(`./${outDir}/icons`);
 	}
-	fs.copyFileSync('src/static/index.html', `${outDir}/static/index.html`);
 	for (let i = 0; i < copiedFiles.length; i += 1) {
 		const copiedFilePath = copiedFiles[i];
-		fs.copyFileSync(`src/static/${copiedFilePath}`, `${outDir}/static/assets/${copiedFilePath}`);
+		fs.copyFileSync(`./src/${copiedFilePath}`, `./${outDir}/${copiedFilePath}`);
 	}
 	console.log(`${new Date().toISOString()}: Built Successfully.`);
 }
 
 const options: esbuild.BuildOptions = {
 	entryPoints: [
-		'src/index.tsx',
-		// 'src/worker.ts',
-		// 'src/serviceWorker.ts',
+		'./src/index.tsx',
+		// './src/worker.ts',
+		// './src/serviceWorker.ts',
 	],
-	outdir: `${outDir}/static/assets/`,
+	outdir: `./${outDir}`,
 	bundle: true,
 	define: {
 		'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
@@ -51,9 +47,9 @@ const options: esbuild.BuildOptions = {
 };
 
 const start =  () => {
-	esbuild.build(options).then(result => {
-		onBuild();
-	});
+esbuild.build(options).then(result => {
+	onBuild();
+});
 	if (!isDev) {
 		process.exit(0);
 	}
