@@ -9,6 +9,10 @@ const outDir = NODE_ENV;
 const onBuild = () => {
 	const copiedFiles = [
 		'index.html',
+		// 'manifest.json',
+		// 'icons/favicon.ico',
+		// 'icons/icon-192x192.png',
+		// 'icons/icon-512x512.png',
 	];
 	if (!fs.existsSync(`./${outDir}/icons`)) {
 		fs.mkdirSync(`./${outDir}/icons`);
@@ -22,9 +26,9 @@ const onBuild = () => {
 
 const options: esbuild.BuildOptions = {
 	entryPoints: [
-		'./src/index.tsx',
-		// './src/worker.ts',
-		// './src/serviceWorker.ts',
+		'src/index.tsx',
+		// 'src/worker.ts',
+		// 'src/serviceWorker.ts',
 	],
 	outdir: `./${outDir}`,
 	bundle: true,
