@@ -24,6 +24,11 @@ const options: esbuild.BuildOptions = {
 		// 'src/serviceWorker.ts',
 	],
 	outdir: `${outDir}`,
+	assetNames: 'assets/[name]',
+	loader: {
+		'.woff': 'file',
+		'.woff2': 'file',
+	},
 	bundle: true,
 	define: {
 		'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
