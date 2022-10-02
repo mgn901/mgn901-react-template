@@ -1,6 +1,8 @@
 import * as esbuild from 'esbuild';
-import * as fs from 'fs';
-import sassPlugin from 'esbuild-sass-plugin';
+import stylePlugin from 'esbuild-style-plugin';
+import tailwindcss from 'tailwindcss';
+import { tailwindConfig } from '../tailwind.config';
+const autoprefiexer = require('autoprefixer');
 
 const NODE_ENV = process.env.NODE_ENV ?? 'development';
 const isDev = NODE_ENV === 'development';
@@ -47,7 +49,13 @@ const options: esbuild.BuildOptions = {
 		},
 	} : false,
 	target: ['chrome98', 'firefox97', 'edge98', 'safari14'],
-	plugins: [sassPlugin()],
+	plugins: [
+		stylePlugin({
+			postcss: {
+				plugins: [tailwindcss(tailwindConfig), autoprefiexer()],
+			},
+		})
+	],
 };
 
 const start =  () => {
