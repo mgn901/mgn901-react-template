@@ -23,7 +23,7 @@ const options: esbuild.BuildOptions = {
 		// 'src/worker.ts',
 		// 'src/serviceWorker.ts',
 	],
-	outdir: `./${outDir}`,
+	outdir: `${outDir}`,
 	bundle: true,
 	define: {
 		'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
@@ -47,8 +47,8 @@ const options: esbuild.BuildOptions = {
 			},
 		}),
 		copyPlugin({
-			src: './src/static',
-			dest: `./${outDir}`,
+			src: 'src/static',
+			dest: `${outDir}`,
 		}),
 	],
 };
