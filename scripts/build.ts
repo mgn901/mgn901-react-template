@@ -13,6 +13,10 @@ const onBuild = () => {
 	console.log(`${new Date().toISOString()}: Built Successfully.`);
 }
 
+const onError = (err: any) => {
+	console.error(err);
+}
+
 const options: esbuild.BuildOptions = {
 	entryPoints: [
 		'src/index.tsx',
@@ -29,7 +33,7 @@ const options: esbuild.BuildOptions = {
 	watch: isDev ? {
 		onRebuild: (err, res) => {
 			if (err) {
-				console.error(err.message);
+				onError(err);
 			} else {
 				onBuild();
 			}
@@ -49,13 +53,15 @@ const options: esbuild.BuildOptions = {
 	],
 };
 
-const start =  () => {
-esbuild.build(options).then(result => {
-	onBuild();
-});
-	if (!isDev) {
-		process.exit(0);
-	}
+const start = () => {
+	esbuild.build(options).then((result) => {
+		onBuild();
+		if (!isDev) {
+			process.exit(0);
+		}
+	}).catch((err) => {
+		onError(err);
+	});
 	return;
 }
 
