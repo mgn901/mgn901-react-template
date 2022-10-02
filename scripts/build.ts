@@ -3,26 +3,13 @@ import stylePlugin from 'esbuild-style-plugin';
 import tailwindcss from 'tailwindcss';
 import { tailwindConfig } from '../tailwind.config';
 const autoprefiexer = require('autoprefixer');
+const copyPlugin = require('esbuild-copy-static-files');
 
 const NODE_ENV = process.env.NODE_ENV ?? 'development';
 const isDev = NODE_ENV === 'development';
 const outDir = NODE_ENV;
 
 const onBuild = () => {
-	const copiedFiles = [
-		'index.html',
-		// 'manifest.json',
-		// 'icons/favicon.ico',
-		// 'icons/icon-192x192.png',
-		// 'icons/icon-512x512.png',
-	];
-	if (!fs.existsSync(`./${outDir}/icons`)) {
-		fs.mkdirSync(`./${outDir}/icons`);
-	}
-	for (let i = 0; i < copiedFiles.length; i += 1) {
-		const copiedFilePath = copiedFiles[i];
-		fs.copyFileSync(`./src/${copiedFilePath}`, `./${outDir}/${copiedFilePath}`);
-	}
 	console.log(`${new Date().toISOString()}: Built Successfully.`);
 }
 
@@ -54,7 +41,11 @@ const options: esbuild.BuildOptions = {
 			postcss: {
 				plugins: [tailwindcss(tailwindConfig), autoprefiexer()],
 			},
-		})
+		}),
+		copyPlugin({
+			src: './src/static',
+			dest: `./${outDir}`,
+		}),
 	],
 };
 
